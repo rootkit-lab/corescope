@@ -1,8 +1,8 @@
 ---
 branch: "feat/skill-inicial-de-forense-e-engenharia-reversa"
-status: todo
+status: in-review
 approved: true
-pr: ""
+pr: "https://github.com/rootkit-lab/corescope/pull/1"
 created: "2026-08-13"
 ---
 
