@@ -1,4 +1,5 @@
 import json
+import shutil
 
 import pytest
 
@@ -25,10 +26,38 @@ def test_subcommands_registered():
     assert args.path == "/bin/true"
 
 
-def test_unimplemented_subcommand_returns_error(capsys):
+def test_mem_subcommand_missing_dump_returns_error(capsys):
     assert main(["mem", "/tmp/does-not-exist.dmp"]) == 1
     captured = capsys.readouterr()
-    assert "not implemented" in captured.err
+    assert "no such file" in captured.err
+
+
+@pytest.mark.skipif(shutil.which("vol") is not None, reason="vol is installed in this environment")
+def test_mem_subcommand_without_vol_returns_clean_error(capsys):
+    assert main(["mem", "/bin/true"]) == 1
+    captured = capsys.readouterr()
+    assert "corescope[memory]" in captured.err
+
+
+def test_re_subcommand_disassembles_real_elf(capsys):
+    assert main(["re", "/bin/true"]) == 0
+    captured = capsys.readouterr()
+    assert "ELF" in captured.out
+    assert "evidence:" in captured.out
+
+
+def test_re_subcommand_json_output(capsys):
+    assert main(["re", "/bin/true", "--json"]) == 0
+    captured = capsys.readouterr()
+    payload = json.loads(captured.out)
+    assert payload["format"] == "elf"
+    assert payload["instructions"]
+
+
+def test_re_subcommand_missing_file_returns_error(capsys):
+    assert main(["re", "/tmp/does-not-exist-corescope-test"]) == 1
+    captured = capsys.readouterr()
+    assert "no such file" in captured.err
 
 
 def test_bin_subcommand_analyzes_real_elf(capsys):
