@@ -34,7 +34,7 @@ Convenção: `[ ]` pendente · `[x]` concluído · `[~]` em andamento/parcial.
 - [x] `references/patterns/` — receitas validadas por tarefa comum
 - [x] `references/pitfalls/what-doesnt-work.md` — armadilhas conhecidas com selo de validação
 - [x] `references/tool-index/` — qual ferramenta usar para qual pergunta + receitas de busca/grep
-- [~] CLI `corescope mem|bin|re` — `bin` implementado de verdade (ELF/PE real); `mem`/`re` ainda stub (próxima task)
+- [x] CLI `corescope mem|bin|re` — `bin` (ELF/PE real), `re` (desmontagem real do entry point via capstone) e `mem` (wrapper real do `vol`/Volatility3, com triagem automática por OS) implementados
 - [x] `skill/package_skill.py` — empacota `skill/corescope/` em `.skill`; `make skill`/`make dist` chamam esse script
 - [x] Guardrail ético/legal explícito no `SKILL.md` e no `README.md` (uso autorizado apenas)
 

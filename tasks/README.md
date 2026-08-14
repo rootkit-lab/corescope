@@ -7,6 +7,7 @@ enquanto está em andamento, e é movida para `tasks/done/<ano>-<mes>/` após o 
 
 | Task | Branch | Status |
 |---|---|---|
+| corescope mem e re: implementacoes reais | `feat/corescope-mem-e-re-implementacoes-reais` | todo |
 
 ## Concluídas recentes
 
