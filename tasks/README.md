@@ -12,3 +12,4 @@ enquanto está em andamento, e é movida para `tasks/done/<ano>-<mes>/` após o 
 
 | Task | Branch | PR |
 |---|---|---|
+| skill inicial de forense e engenharia reversa | `feat/skill-inicial-de-forense-e-engenharia-reversa` | todo |

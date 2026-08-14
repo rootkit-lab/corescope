@@ -15,8 +15,8 @@ Convenção: `[ ]` pendente · `[x]` concluído · `[~]` em andamento/parcial.
 - [x] `.gitignore` completo (segredos, artefatos de build, amostras/dumps de casos)
 - [x] Hooks reais de Git criados (`.githooks/pre-commit`, `.githooks/commit-msg`)
 - [x] Repositório Git inicializado, `core.hooksPath` configurado, primeiro commit
-- [ ] Repositório remoto criado (GitHub `rootkit-lab/corescope`, público) e push inicial
-- [ ] Branch protection em `main` configurada
+- [x] Repositório remoto criado (GitHub `rootkit-lab/corescope`, público) e push inicial
+- [x] Branch protection em `main` configurada
 
 ## Fase 1 — Ambiente de desenvolvimento
 
@@ -27,16 +27,16 @@ Convenção: `[ ]` pendente · `[x]` concluído · `[~]` em andamento/parcial.
 
 ## Fase 2 — Núcleo funcional (skill + CLI)
 
-- [ ] `skill/corescope/SKILL.md` com tabela de precedência de fontes e tabela de roteamento por domínio
-- [ ] `references/memory-forensics/` — aquisição de dump, plugins essenciais do Volatility3, artefatos (processos, rede, injeção)
-- [ ] `references/binary-analysis/` — parsing ELF/PE, strings/IOCs, YARA, detecção de packer/anti-análise
-- [ ] `references/reverse-engineering/` — desmontagem/decompilação, emulação (`unicorn`), execução simbólica (`angr`), anti-anti-debug
-- [ ] `references/patterns/` — receitas validadas por tarefa comum
-- [ ] `references/pitfalls/what-doesnt-work.md` — armadilhas conhecidas com selo de validação
-- [ ] `references/tool-index/` — qual ferramenta usar para qual pergunta + receitas de busca/grep
-- [ ] CLI `corescope mem|bin|re` com pelo menos um subcomando funcional por domínio
-- [ ] `skill/package_skill.py` — empacota `skill/corescope/` em `.skill`; `make dist` chama esse script
-- [ ] Guardrail ético/legal explícito no `SKILL.md` e no `README.md` (uso autorizado apenas)
+- [x] `skill/corescope/SKILL.md` com tabela de precedência de fontes e tabela de roteamento por domínio
+- [x] `references/memory-forensics/` — aquisição de dump, plugins essenciais do Volatility3, artefatos (processos, rede, injeção)
+- [x] `references/binary-analysis/` — parsing ELF/PE, strings/IOCs, YARA, detecção de packer/anti-análise
+- [x] `references/reverse-engineering/` — desmontagem/decompilação, emulação (`unicorn`), execução simbólica (`angr`), anti-anti-debug
+- [x] `references/patterns/` — receitas validadas por tarefa comum
+- [x] `references/pitfalls/what-doesnt-work.md` — armadilhas conhecidas com selo de validação
+- [x] `references/tool-index/` — qual ferramenta usar para qual pergunta + receitas de busca/grep
+- [~] CLI `corescope mem|bin|re` — `bin` implementado de verdade (ELF/PE real); `mem`/`re` ainda stub (próxima task)
+- [x] `skill/package_skill.py` — empacota `skill/corescope/` em `.skill`; `make skill`/`make dist` chamam esse script
+- [x] Guardrail ético/legal explícito no `SKILL.md` e no `README.md` (uso autorizado apenas)
 
 ## Fase 3 — Testes e qualidade
 
