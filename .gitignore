@@ -1,0 +1,65 @@
+# Segredos e configuração local — nunca commitar
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*credentials*.json
+secrets/
+
+# Artefatos de build (qualquer stack) — ver PLAN.md §"Convenção de build" após o bootstrap
+bin/
+dist/
+build/
+out/
+target/
+releases/
+*.egg-info/
+*.exe
+*.dll
+*.deb
+*.AppImage
+*.msi
+*.skill
+
+# corescope: amostras/casos reais — nunca versionar (podem conter dados sensíveis de terceiros)
+samples/
+cases/
+*.dmp
+*.vmem
+*.raw
+*.mem
+
+# Dependências (repostas pelo gerenciador de pacotes da stack escolhida)
+node_modules/
+vendor/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Deps estáticas de C (buildadas por scripts/build-*.sh, não commitadas)
+third_party/*/prefix/
+third_party/*/src/
+tests/unity/
+
+# Bancos de dados locais / runtime
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# SO
+.DS_Store
+Thumbs.db
+
+# IDE (exceto o que este template versiona de propósito)
+.idea/
+*.swp
+
+# Cursor: estado local que não deve ser versionado entre clones
+.cursor/state/*.local.json

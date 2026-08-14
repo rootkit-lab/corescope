@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Hook de commit-msg: exige Conventional Commits.
+# Ativar com: git config core.hooksPath .githooks
+set -euo pipefail
+
+msg_file="$1"
+first_line="$(head -n1 "$msg_file")"
+
+# Ignora commits de merge/revert automáticos
+if [[ "$first_line" =~ ^(Merge|Revert) ]]; then
+  exit 0
+fi
+
+pattern='^(feat|fix|chore|docs|refactor|test|security|perf)(\([a-z0-9./_-]+\))?!?: .{1,}'
+
+if ! [[ "$first_line" =~ $pattern ]]; then
+  echo "ERRO: mensagem de commit fora do padrão Conventional Commits." >&2
+  echo "" >&2
+  echo "Recebido: $first_line" >&2
+  echo "" >&2
+  echo "Formato esperado:" >&2
+  echo "  <tipo>(<escopo opcional>): <descrição curta no imperativo>" >&2
+  echo "" >&2
+  echo "Tipos válidos: feat, fix, chore, docs, refactor, test, security, perf" >&2
+  echo "Exemplo: feat(api): adiciona endpoint de listagem de usuários" >&2
+  exit 1
+fi
+
+exit 0

@@ -1,0 +1,23 @@
+---
+description: Convenções de código C para projetos de sistemas (agentes, daemons, CLI, libs nativas)
+globs:
+  - "**/*.c"
+  - "**/*.h"
+alwaysApply: false
+---
+
+# C de sistemas
+
+- **Headers**: classic `#ifndef PROJECT_*_H` / `#define` / `#endif` guards (não `#pragma once` — portabilidade com toolchains antigos). Um guard por arquivo, prefixado com o nome do projeto/subsistema.
+- **Nomenclatura**: `snake_case.c` / `snake_case.h`. Prefixo de subsistema (`transport_*`, `agent_*`, `config_*`). Tipos e funções públicas com prefixo do projeto (`project_transport_connect`, `ProjectConfig`).
+- **Layout**: `include/` para headers públicos, `src/<domínio>/` para implementação. Headers internos (não da API pública) ficam ao lado do `.c`, não em `include/`.
+- **Plataforma**: código cross-platform usa `#if defined(_WIN32)` para branches. Arquivos só de uma plataforma: sufixo `*_win.c`, `*_posix.c`. Stubs para plataformas não suportadas retornam `ENOSYS` ou código de erro explícito, não `abort()`.
+- **Feature stubs**: qualquer feature opcional (TLS, codec, etc.) tem `foo.c` (real) + `foo_stub.c` (stub que retorna erro), selecionados no Makefile por flag (`WINDOWS_TLS=1` etc.). Isso garante que o projeto sempre compila e linka, mesmo sem a dep — só não tem a feature.
+- **Memória**: ownership clara — quem aloca libera. Funções que retornam ponteiro alocado têm sufixo `_new`/`_create` e correspondente `_free`. Documentar em comentário quem é dono de cada ponteiro retornado.
+- **Erros**: nunca ignorar silenciosamente. Usar `int` de retorno com códigos negativos ou `errno`, ou pattern `bool + out-param`. Em C não há exceção — todo erro é um caminho explícito.
+- **Warnings**: `-Wall -Wextra -Werror` sempre. Zero warnings no build de release.
+- **Strings**: nunca `strcpy`/`sprintf` sem limite — sempre `snprintf`, `strncpy` com checagem de truncamento, ou wrappers com tamanho explícito.
+- **Format**: `clang-format` rodado automaticamente pelo hook `afterFileEdit` (config em `.clang-format`). Não reformatar à mão.
+- **Testes**: cada módulo com lógica não trivial tem `tests/test_<módulo>.c` com Unity. Cobertura não é meta, mas todo bug fix vem com teste que reproduz o caso.
+- **Dependências**: third-party estática em `third_party/<lib>-<target>/prefix/`, buildada por `scripts/build-*.sh` com versão pinada. Nunca commitar binários de deps — só scripts que os constroem.
+- **Segredos**: nunca embutir chaves/tokens no código C (const string fica no binário, fácil de extrair). Usar env var em runtime ou arquivo de config externo.

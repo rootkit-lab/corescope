@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify-native:
+    name: verify (native, ${{ matrix.cc }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cc: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential clang clang-format clang-tidy cppcheck
+          echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
+      - run: make install
+      - run: make verify
+
+  verify-cross:
+    name: verify (cross mingw)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup mingw
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends mingw-w64
+      - run: make build CROSS=mingw
+      - name: Confirma exe Windows
+        run: file build/app.exe | grep -q "PE32+"

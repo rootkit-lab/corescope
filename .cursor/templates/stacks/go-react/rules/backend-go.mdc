@@ -1,0 +1,17 @@
+---
+description: Convenções de código para o backend Go
+globs:
+  - "**/*.go"
+  - "go.mod"
+alwaysApply: false
+---
+
+# Backend Go
+
+- Formatação: `gofmt`/`goimports` sempre (o hook `afterFileEdit` já faz isso automaticamente).
+- Erros: sempre tratados explicitamente; nunca `_ = err` para descartar silenciosamente sem justificativa em comentário.
+- Handlers HTTP ficam em `internal/api/`; acesso a dados em `internal/store/`; nunca acessar o banco diretamente de um handler.
+- Contexto (`context.Context`) é o primeiro parâmetro de qualquer função que faça I/O (rede, banco, disco).
+- Testes: `_test.go` ao lado do arquivo testado, usando a tabela de casos (`table-driven tests`) quando há múltiplos cenários.
+- Dependências novas: preferir a biblioteca padrão quando resolver o problema razoavelmente bem; justificar a adição de uma dependência externa.
+- Nunca logar segredos (senhas, tokens, chaves) mesmo em nível `debug`.

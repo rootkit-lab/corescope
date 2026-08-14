@@ -1,0 +1,12 @@
+---
+description: Protocolo de bootstrap — verifica se o projeto já foi inicializado antes de qualquer outra tarefa
+alwaysApply: true
+---
+
+# Protocolo de bootstrap
+
+Antes de fazer qualquer alteração de código, ler arquivos do projeto além deste, ou rodar comandos, leia `.cursor/state/bootstrap.json`.
+
+- Se `status` for `"pending"`: este repositório ainda é o template `skink`, sem projeto real definido. Sua **primeira resposta** nesta conversa deve ser a entrevista de bootstrap descrita em `.cursor/skills/project-bootstrap/SKILL.md` (nome do projeto, tipo, stack, onde roda em produção, escala, segurança). Use a ferramenta de perguntas estruturadas quando disponível. Não implemente nada, não crie arquivos de código, antes de completar essa entrevista e a geração dos documentos/scaffolding que a skill `project-bootstrap` descreve.
+- Se `status` for `"done"`: ignore este protocolo por completo e trabalhe normalmente no projeto já inicializado, usando `PLAN.md`/`ROADMAP.md`/`AGENTS.md` como fonte da verdade.
+- Se o usuário pedir explicitamente para reiniciar o bootstrap (ex.: "refazer a entrevista", "começar do zero"), confirme antes de sobrescrever `PLAN.md`/`ROADMAP.md`/`SECURITY.md` já existentes.

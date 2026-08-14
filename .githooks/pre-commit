@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Hook de pre-commit genérico (stack-agnóstico).
+# Ativar com: git config core.hooksPath .githooks
+set -euo pipefail
+
+fail=0
+
+# symbolic-ref (não rev-parse --abbrev-ref) porque funciona mesmo antes do primeiro
+# commit — rev-parse --abbrev-ref HEAD nesse caso imprime "HEAD" literal, mascarando
+# a branch real e deixando o commit direto em main passar sem bloqueio.
+branch="$(git symbolic-ref --short HEAD 2>/dev/null || echo "")"
+
+# 1. Bloquear commit direto em main/master — excetos: merge em andamento, e o
+#    commit raiz (repositório ainda sem nenhum commit — bootstrap inicial do projeto).
+is_root_commit=false
+git rev-parse --verify -q HEAD >/dev/null 2>&1 || is_root_commit=true
+
+if [[ "$branch" == "main" || "$branch" == "master" ]] \
+  && [[ ! -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]] \
+  && [[ "$is_root_commit" == false ]]; then
+  echo "ERRO: commit direto na branch '$branch' não é permitido." >&2
+  echo "Crie uma branch (feat/, fix/, chore/, docs/, refactor/, test/, security/) e abra um PR." >&2
+  echo "Ver CONTRIBUTING.md. Use a skill 'branch-task' para automatizar isso." >&2
+  fail=1
+fi
+
+staged_files="$(git diff --cached --name-only --diff-filter=ACM || true)"
+
+if [[ -n "$staged_files" ]]; then
+  # 2. Bloquear artefatos de build óbvios
+  artifact_pattern='(^|/)(bin|dist|build|out|target)/|\.(exe|dll|deb|AppImage|msi|so|dylib)$'
+  artifacts="$(echo "$staged_files" | grep -E "$artifact_pattern" || true)"
+  if [[ -n "$artifacts" ]]; then
+    echo "ERRO: artefato(s) de build sendo commitado(s):" >&2
+    echo "$artifacts" | sed 's/^/  - /' >&2
+    echo "Artefatos de build não devem ser versionados — ver .gitignore." >&2
+    fail=1
+  fi
+
+  # 3. Bloquear arquivos de segredo óbvios pelo nome (exceto *.example, que é o
+  #    ponto de partida sem valores reais e deve ser commitado)
+  secret_name_pattern='(^|/)\.env(\..+)?$|\.(key|pem|p12)$|credentials.*\.json$'
+  secret_files="$(echo "$staged_files" | grep -E "$secret_name_pattern" | grep -vE '\.example$' || true)"
+  if [[ -n "$secret_files" ]]; then
+    echo "ERRO: arquivo(s) que parecem conter segredos sendo commitado(s):" >&2
+    echo "$secret_files" | sed 's/^/  - /' >&2
+    echo "Se for um .env.example sem valores reais, renomeie para deixar isso claro." >&2
+    fail=1
+  fi
+
+  # 4. Varredura simples de padrões de segredo no diff (best-effort, não é infalível)
+  secret_content_pattern='-----BEGIN( RSA| OPENSSH| EC| DSA)? PRIVATE KEY-----|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[baprs]-[0-9A-Za-z-]{10,}'
+  if git diff --cached -U0 -- . ':!*.lock' ':!*lock.json' | grep -E -e "$secret_content_pattern" >/dev/null 2>&1; then
+    echo "ERRO: o diff em staging parece conter uma chave privada ou token de API." >&2
+    echo "Remova o segredo do commit antes de continuar." >&2
+    fail=1
+  fi
+fi
+
+if [[ $fail -ne 0 ]]; then
+  echo "" >&2
+  echo "Se algum bloqueio acima for falso positivo, confirme com o usuário antes de usar --no-verify." >&2
+  exit 1
+fi
+
+exit 0

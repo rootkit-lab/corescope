@@ -1,0 +1,19 @@
+---
+description: Convenções de código para a CLI e módulos de análise em Python (corescope)
+globs:
+  - "src/**/*.py"
+  - "tests/**/*.py"
+alwaysApply: false
+---
+
+# Python (corescope)
+
+- Formatação e lint: `ruff` (o hook `afterFileEdit` já formata automaticamente).
+- Type hints em funções públicas/entradas e saídas de módulos; evitar `Any` quando um tipo concreto é conhecido.
+- Camadas separadas: `cli.py` (parsing de argumentos + dispatch, sem lógica de análise) → `memory/`, `binary/` (lógica real, testável sem `argparse`).
+- Toda função de análise retorna dados estruturados (dict/dataclass) **junto com a evidência bruta** (comando executado, offset/endereço) — nunca uma conclusão sem o dado que a sustenta. Ver `PLAN.md` §5.
+- Nunca execute nem desempacote uma amostra/binário não confiável fora do `Dockerfile` sandbox — nem em teste, nem em exemplo de código.
+- Parsing de binário deve tratar input malformado como esperado (arquivo truncado, magic bytes inválidos), nunca deixar uma exceção não tratada travar a CLI.
+- Testes com `pytest`; para módulos de binário, prefira amostras sintéticas pequenas geradas no próprio teste (ou binários triviais do sistema, ex. `/bin/true`) em vez de depender de amostras externas não versionadas.
+- Dependências pesadas (`volatility3`, `angr`, `unicorn`) ficam em extras opcionais (`pyproject.toml`) — nunca no dependency set default.
+- Nunca logar segredos (senhas, tokens, chaves) mesmo em nível `debug` — inclusive os que aparecerem dentro de um dump de memória ou binário analisado.

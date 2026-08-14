@@ -1,0 +1,3 @@
+{
+  "install": "echo 'environment.json ainda não configurado — a skill dev-environment-setup preenche install/build/start durante o bootstrap do projeto.'"
+}

@@ -1,0 +1,16 @@
+---
+description: Convenções de código para o backend Node/TypeScript
+globs:
+  - "src/**/*.ts"
+alwaysApply: false
+---
+
+# Backend Node/TypeScript
+
+- `strict: true` no `tsconfig.json` — evitar `any`; usar tipos/DTOs explícitos para request/response.
+- Camadas separadas: `routes/` (só parsing de request + chamada de service + resposta), `services/` (lógica de negócio), `db/` (acesso a dados) — nunca lógica de negócio dentro de um handler de rota.
+- Validação de entrada de qualquer request externo (body/query/params) com uma lib de schema (zod/yup) antes de chegar no service.
+- Erros: usar classes de erro tipadas (ex.: `NotFoundError`, `ValidationError`) capturadas num middleware central, nunca `try/catch` espalhado retornando formatos de erro diferentes por rota.
+- Testes: um arquivo `*.test.ts` por módulo relevante, rodando com o runner configurado no `package.json`.
+- Nunca logar segredos (senhas, tokens, chaves) mesmo em nível `debug`.
+- Formatação/lint: ESLint + Prettier (o hook `afterFileEdit` já formata automaticamente).

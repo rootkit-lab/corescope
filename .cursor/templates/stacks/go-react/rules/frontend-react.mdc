@@ -1,0 +1,16 @@
+---
+description: Convenções de código para o frontend React
+globs:
+  - "web/**/*.ts"
+  - "web/**/*.tsx"
+alwaysApply: false
+---
+
+# Frontend React (Vite + TypeScript)
+
+- Componentes funcionais + hooks; evitar `class components`.
+- Tipagem estrita — evitar `any`; preferir tipos/DTOs compartilhados com o backend quando existirem.
+- Chamadas à API centralizadas num client HTTP único (`web/src/lib/api.ts` ou equivalente), nunca `fetch` espalhado pelos componentes.
+- Estado de servidor (dados vindos da API) separado de estado de UI local — usar uma lib de data-fetching (ex.: TanStack Query) em vez de `useEffect` manual quando o projeto crescer.
+- Formatação/lint: Prettier + ESLint (o hook `afterFileEdit` já formata automaticamente).
+- Nunca commitar chaves de API/tokens no código do frontend — variáveis `VITE_*` só para valores não sensíveis (tudo que vai para o bundle é público).

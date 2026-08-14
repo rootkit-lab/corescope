@@ -1,0 +1,41 @@
+[project]
+name = "corescope"
+version = "0.1.0"
+description = "Agent Skill + toolkit em Python 3 para forense de memoria, analise de binarios e engenharia reversa."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "rootkit-lab" }]
+
+dependencies = [
+    "pyelftools>=0.33",
+    "pefile>=2024.8.26",
+    "lief>=1.0.0",
+    "capstone>=5.0.9",
+    "yara-python>=4.5.4",
+]
+
+[project.optional-dependencies]
+memory = ["volatility3>=2.28.0"]
+re = ["angr>=9.3.2", "unicorn>=2.1.4"]
+dev = ["ruff>=0.16.3", "pytest>=9.1.1", "build>=1.5.0"]
+
+[project.scripts]
+corescope = "corescope.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

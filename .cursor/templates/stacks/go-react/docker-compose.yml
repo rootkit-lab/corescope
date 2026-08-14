@@ -1,0 +1,16 @@
+# Dependências de desenvolvimento local (não a aplicação em si — ver dev-environment-setup).
+# Remover este arquivo se o projeto não precisar de banco de dados.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:

@@ -1,0 +1,16 @@
+---
+description: Convenções gerais de engenharia válidas para qualquer projeto gerado a partir deste template
+alwaysApply: true
+---
+
+# Convenções gerais
+
+- **Nunca commitar diretamente em `main`/`master`.** Toda mudança nasce numa branch (`feat/`, `fix/`, `chore/`, `docs/`, `refactor/`, `test/`, `security/`) e chega via Pull Request. Use a skill `branch-task` antes de começar a codar.
+- **Conventional Commits** obrigatório (`feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `security`, `perf`), aplicado por `.githooks/commit-msg`.
+- **Nunca commitar segredos** (chaves privadas, tokens, `.env` com credenciais reais) nem artefatos de build (binários, `dist/`, `bin/`, instaladores).
+- **Nunca usar `--no-verify`** em commit/push para contornar hooks sem confirmação explícita do usuário. Se um hook bloquear algo que parece falso positivo, explique o motivo do bloqueio e peça confirmação antes de ignorá-lo.
+- **Antes de dar push**, rode `make verify` (skill `verify-before-push`) — deve espelhar o que o CI roda.
+- **Ao concluir uma tarefa do `ROADMAP.md`**, marque o checkbox correspondente na mesma sessão de trabalho, não depois.
+- **Mudanças de arquitetura relevantes** (troca de biblioteca, nova dependência de infraestrutura, mudança de decisão registrada) devem ser refletidas em `PLAN.md`, não só no código.
+- **Comandos destrutivos ou que alterem infraestrutura de produção** (firewall, banco de dados, deploy) devem ser precedidos, quando possível, de um passo read-only equivalente para confirmar o estado atual antes de alterar algo.
+- Presets de stack (`.cursor/templates/stacks/<preset>/rules/*.mdc`, copiados para `.cursor/rules/` durante o bootstrap) complementam estas convenções com regras específicas da linguagem/framework escolhidos — não as substituem.

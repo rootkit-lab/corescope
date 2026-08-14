@@ -1,0 +1,45 @@
+# .clang-format — estilo de formatação C
+# Rodar: make format   (ou clang-format -i src/**/*.c include/**/*.h)
+
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c11
+
+# Indentação: 4 espaços (padrão C) — trocar para 2 se preferir
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+
+# Colunas
+ColumnLimit: 100
+ReflowComments: true
+
+# Chaves
+BreakBeforeBraces: Allman
+AllowShortBlocksOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+
+# Ponteiros: * colado ao tipo (int* p, não int *p)
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# Includes
+IncludeBlocks: Regroup
+SortIncludes: CaseSensitive
+IncludeCategories:
+  - Regex: '^".*"$'         # headers locais com ""
+    Priority: 1
+  - Regex: '^<.*>$'         # headers de sistema com <>
+    Priority: 2
+
+# Espaçamento
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpaceBeforeSquareBrackets: false
+SpaceAfterCStyleCast: false

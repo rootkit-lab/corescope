@@ -1,0 +1,8 @@
+{
+  "status": "done",
+  "project_name": "corescope",
+  "project_type": "biblioteca/CLI + Agent Skill (Python 3) — forense de memória, análise de binários e engenharia reversa",
+  "stack_preset": "python",
+  "deploy_target": "GitHub Releases (sem servidor em produção; pacote pip + .skill)",
+  "bootstrapped_at": "2026-08-14T00:00:00-03:00"
+}

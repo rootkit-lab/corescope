@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": "./.cursor/hooks/session-start.sh" }
+    ],
+    "beforeShellExecution": [
+      { "command": "./.cursor/hooks/guard-shell.sh" }
+    ],
+    "afterFileEdit": [
+      { "command": "./.cursor/hooks/format-on-edit.sh" }
+    ]
+  }
+}

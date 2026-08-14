@@ -1,0 +1,19 @@
+# .clang-tidy — checks estáticos avançados
+# Rodar: make tidy   (ou clang-tidy src/**/*.c -- -std=c11 -Iinclude)
+
+Checks: >
+  -*,
+  bugprone-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-easily-swappable-parameters,
+  -readability-magic-numbers,
+  -readability-identifier-length,
+  -readability-function-cognitive-complexity,
+  -readability-else-after-return
+
+WarningsAsErrors: ''
+HeaderFilterRegex: '^(?!third_party/).*$'
+
+FormatStyle: file

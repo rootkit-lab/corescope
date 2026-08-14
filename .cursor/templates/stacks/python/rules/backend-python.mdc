@@ -1,0 +1,17 @@
+---
+description: Convenções de código para o backend/scripts Python
+globs:
+  - "src/**/*.py"
+  - "tests/**/*.py"
+alwaysApply: false
+---
+
+# Python
+
+- Formatação e lint: `ruff` (o hook `afterFileEdit` já formata automaticamente).
+- Type hints em funções públicas/entradas e saídas de módulos; evitar `Any` quando um tipo concreto é conhecido.
+- Validação de entrada de API com Pydantic (se FastAPI) ou equivalente — não confiar em dados externos sem validar.
+- Camadas separadas: `api/` (rotas, só parsing + chamada de service), `services/` (lógica de negócio), sem lógica de negócio dentro de um handler de rota.
+- Testes com `pytest`, um arquivo `test_*.py` por módulo relevante.
+- Gerenciamento de dependências: manter `requirements.txt` (produção) e `requirements-dev.txt` (lint/test) separados.
+- Nunca logar segredos (senhas, tokens, chaves) mesmo em nível `debug`.
