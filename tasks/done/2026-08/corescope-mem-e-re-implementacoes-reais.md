@@ -1,8 +1,8 @@
 ---
 branch: "feat/corescope-mem-e-re-implementacoes-reais"
-status: todo
+status: done
 approved: true
-pr: ""
+pr: "https://github.com/rootkit-lab/corescope/pull/3"
 created: "2026-08-14"
 ---
 
