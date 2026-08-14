@@ -1,8 +1,8 @@
 ---
 branch: "chore/pos-merge-mover-task-e-atualizar-roadmap-da-skill-inicial"
-status: todo
+status: done
 approved: true
-pr: ""
+pr: "https://github.com/rootkit-lab/corescope/pull/2"
 created: "2026-08-13"
 ---
 
