@@ -83,7 +83,28 @@ content = content.replace("{{BRANCH}}", branch).replace("{{TITLE}}", title).repl
 with open(out, "w", encoding="utf-8") as f:
     f.write(content)
 ' tasks/_templates/TASK.md "$branch" "$title" "$today" "$task_file"
-  echo "| $title | \`$branch\` | todo |" >> tasks/README.md
+  # Insere a linha na tabela "## Ativas" (não no fim do arquivo — que cairia dentro/depois
+  # da tabela "## Concluídas recentes" e corromperia as duas tabelas).
+  python3 -c '
+import sys
+
+path, title, branch = sys.argv[1:4]
+with open(path, encoding="utf-8") as f:
+    lines = f.readlines()
+
+insert_at = len(lines)
+for i, line in enumerate(lines):
+    if line.strip() == "## Ativas":
+        for j in range(i + 1, len(lines)):
+            if lines[j].startswith("|---"):
+                insert_at = j + 1
+                break
+        break
+
+lines.insert(insert_at, f"| {title} | `{branch}` | todo |\n")
+with open(path, "w", encoding="utf-8") as f:
+    f.writelines(lines)
+' tasks/README.md "$title" "$branch"
   echo "Task criada em $task_file"
 fi
 

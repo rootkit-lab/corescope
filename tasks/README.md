@@ -12,4 +12,5 @@ enquanto está em andamento, e é movida para `tasks/done/<ano>-<mes>/` após o 
 
 | Task | Branch | PR |
 |---|---|---|
-| skill inicial de forense e engenharia reversa | `feat/skill-inicial-de-forense-e-engenharia-reversa` | todo |
+| skill inicial de forense e engenharia reversa | `feat/skill-inicial-de-forense-e-engenharia-reversa` | [#1](https://github.com/rootkit-lab/corescope/pull/1) |
+| pos-merge: mover task e atualizar roadmap da skill inicial | `chore/pos-merge-mover-task-e-atualizar-roadmap-da-skill-inicial` | [#2](https://github.com/rootkit-lab/corescope/pull/2) |
